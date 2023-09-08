@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-  /**
+  /**  
    * 1. 생성자
    *  1) 서블릿 생성할 때 호출된다. (가장 먼저 호출된다.)
    *  2) 서블릿 생성 후 자동으로 init() 메소드가 호출된다.
