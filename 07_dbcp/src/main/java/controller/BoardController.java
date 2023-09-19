@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.Desktop.Action;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -10,66 +9,58 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.ActionForward;
-import service.MvcService;
-import service.MvcServiceImpl;
 
 /**
- * Servlet implementation class MvcController
+ * Servlet implementation class BoardController
  */
 @WebServlet("*.do")
-public class MvcController extends HttpServlet {
+public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MvcController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+  /**
+   * @see HttpServlet#HttpServlet()
+   */
+  public BoardController() {
+    super();
+    // TODO Auto-generated constructor stub
+  }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  
+	  // Filter 실행 후 Controller 실행
+	  
 	  // 요청 인코딩 + 응답 타입과 인코딩
 	  request.setCharacterEncoding("UTF-8");
 	  response.setContentType("text/html; charset=UTF-8");
 	  
-	  // 요청 확인(URLMapping 확인)
-	  String requestURI = request.getRequestURI();                     /*  /mvc/getDate.do  */
-	  String contextPath = request.getContextPath();                   /*  /mvc             */
-	  String urlMapping = requestURI.substring(contextPath.length());  /*  /getDate.do      */
+	  // 요청 주소 확인
+	  String requestURI = request.getRequestURI();
+	  String contextPath = request.getContextPath();
+	  String urlMapping = requestURI.substring(contextPath.length());
 	  
-	  // 서비스 객체 생성(MVC Pattern에서 Model에 해당함)
-	  MvcService mvcService = new MvcServiceImpl();
-	  
-	  // 서비스 실행 결과(어디로 어떻게 이동할 것인가에 관한 정보가 저장)
+	  // 어디로 어떻게 이동할 것인지 알고 있는 ActionForward 객체
 	  ActionForward af = null;
 	  
-	  // 요청에 따른 서비스 실행
+	  // 요청에 따른 처리
 	  switch(urlMapping) {
-	  case "/getDate.do":
-	    af = mvcService.getDate(request);
+	  // 단순 이동 (forward 처리)
+	  case "/board/list.do":
+	    af = new ActionForward("/board/list.do", false);
 	    break;
-	  case "/getTime.do":
-	    af = mvcService.getTime(request);
-	    break;
-	  case "/getDatetime.do":
-	    mvcService.getDatetime(request, response);
-	    break;
+	  // 서비스 처리
+	    
 	  }
-	  
-	  // 서비스 실행 결과에 의한 이동 (redirect와 forward의 선택은 서비스에서 결정함
+	  // 이동
 	  if(af != null) {
-	    if(af.isReadirect()) {
+	    if(af.isRedirece()) {
 	      response.sendRedirect(af.getPath());
 	    } else {
 	      request.getRequestDispatcher(af.getPath()).forward(request, response);
 	    }
 	  }
-	  
 	  
 	}
 
