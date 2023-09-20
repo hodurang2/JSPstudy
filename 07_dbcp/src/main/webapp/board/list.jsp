@@ -33,5 +33,7 @@
   </div>
 
 
+  <div>${paging}</div>
+
 </body>
 </html>
