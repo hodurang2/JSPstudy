@@ -7,30 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<style>
-  .board span {
-    margin-right: 20px;
-  }
-</style>
-<script>
-  
-  $(function(){
-    fnDetail();
-  })
-  
-  function fnDetail(){
-    $('.board').click(function(){
-      location.href = '${contextPath}/board/detail.do?board_no=' + $(this).find('.board_no').text();
-    })
-  }
-
-</script>
 </head>
 <body>
 
   <div>
-    <a href="${contextPath}/board/write.do">작성하러가기</a>
+    <a href="${contextPath}/board/writeArticle.do">작성하러가기</a>
   </div>
   <hr>
   
@@ -46,6 +27,10 @@
 
 
   <div>${paging}</div>
+
+
+
+
 
 </body>
 </html>

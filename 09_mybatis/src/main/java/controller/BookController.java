@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,30 +9,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.ActionForward;
-import service.BoardService;
-import service.BoardServiceImpl;
+import service.BookService;
+import service.BookServiceImpl;
 
 /**
- * Servlet implementation class BoardController
+ * Servlet implementation class BookController
  */
 @WebServlet("*.do")
-public class BoardController extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+public class BookController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
        
   /**
    * @see HttpServlet#HttpServlet()
    */
-  public BoardController() {
+  public BookController() {
     super();
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-   */
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    // BoardFilter 실행 후 Controller 실행
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  
+// BoardFilter 실행 후 Controller 실행
     
     // 요청 인코딩(BoardFilter가 수행) + 응답 타입과 인코딩
     request.setCharacterEncoding("UTF-8");
@@ -46,35 +47,35 @@ public class BoardController extends HttpServlet {
     ActionForward af = null;
     
     // BoardService 객체 생성
-    BoardService boardService = new BoardServiceImpl();
+    BookService bookService = new BookServiceImpl();
 
     // 요청에 따른 처리
     switch(urlMapping) {
     // 단순 이동 (forward 처리)
-    case "/board/write.do":
-      af = new ActionForward("/board/write.jsp", false);
+    case "/book/write.do":
+      af = new ActionForward("/book/write.jsp", false);
       break;
     case "/index.do":
       af = new ActionForward("/index.jsp", false);
       break;
     // 서비스 처리
-    case "/board/register.do":
-      af = boardService.register(request);
+    case "/book/add.do":
+      af = bookService.bookAdd(request);
       break;
-    case "/board/list.do":
-      af = boardService.getBoardList(request);
+    case "/book/list.do":
+      af = bookService.bookList(request);
       break;
-    case "/board/detail.do":
-      af = boardService.getBoardByNo(request);
+    case "/book/detail.do":
+      af = bookService.bookDetail(request);
       break;
-    case "/board/edit.do":
-      af = boardService.edit(request);
+    case "/book/edit.do":
+      af = bookService.bookEdit(request);
       break;
-    case "/board/modify.do":
-      af = boardService.modify(request);
+    case "/book/modify.do":
+      af = bookService.bookModify(request);
       break;
-    case "/board/delete.do":
-      af = boardService.delete(request);
+    case "/book/delete.do":
+      af = bookService.bookDelete(request);
       break;
     }
     
@@ -86,15 +87,17 @@ public class BoardController extends HttpServlet {
         request.getRequestDispatcher(af.getPath()).forward(request, response);
       }
     }
-    
-  }
+	  
+	  
+	  
+	}
 
-  /**
-   * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-   */
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // TODO Auto-generated method stub
-    doGet(request, response);
-  }
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 
 }

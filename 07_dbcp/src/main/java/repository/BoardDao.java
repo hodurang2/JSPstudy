@@ -155,4 +155,91 @@ public class BoardDao {
     return list;
   }
   
+  // 게시글 반환 메소드
+  public BoardDto getBoardByNo(int board_no) {
+    
+    // 게시글
+    BoardDto dto = null;
+    
+    try {
+      con = dataSource.getConnection();
+      String sql = "SELECT BOARD_NO, TITLE, CONTENT, MODIFIED_AT, CREATED_AT"
+                 + "  FROM BOARD_T"
+                 + " WHERE BOARD_NO = ?";
+      ps = con.prepareStatement(sql);
+      ps.setInt(1,  board_no);
+      rs = ps.executeQuery();
+      if(rs.next()) {
+        dto = BoardDto.builder()
+            .board_no(rs.getInt(1))
+            .title(rs.getString(2))
+            .content(rs.getString(3))
+            .modified_at(rs.getDate(4))
+            .created_at(rs.getDate(5))
+            .build();
+      }
+    } catch(Exception e) {
+      e.printStackTrace();
+    } finally {
+      close();
+    }
+    // 게시글 반환
+    return dto;
+  }
+  
+  // 게시글 수정 메소드
+  public int modify(BoardDto dto) {
+    
+    // 수정 결과
+    int modifyResult = 0;
+    
+    try {
+      
+      con = dataSource.getConnection();
+      String sql = "UPDATE BOARD_T"
+                 + "   SET TITLE = ?, CONTENT = ?, MODIFIED_AT = SYSDATE"
+                 + " WHERE BOARD_NO = ?";
+      ps = con.prepareStatement(sql);
+      ps.setString(1, dto.getTitle());
+      ps.setString(2, dto.getContent());
+      ps.setInt(3,  dto.getBoard_no());
+      modifyResult = ps.executeUpdate();
+    
+    } catch(Exception e) {
+      e.printStackTrace();
+    } finally {
+      close();
+    }
+    
+    
+    // 수정 결과 반환
+    return modifyResult;
+    
+  }
+  
+  // 게시글 삭제 메소드
+  public int delete(int board_no) {
+    
+    // 삭제 결과
+    int deleteResult = 0;
+    
+    try {
+      
+      con = dataSource.getConnection();
+      String sql = "DELETE FROM BOARD_T WHERE BOARD_NO = ?";
+      ps = con.prepareStatement(sql);
+      ps.setInt(1, board_no);
+      deleteResult = ps.executeUpdate();
+      
+    } catch(Exception e) {
+      e.printStackTrace();
+    } finally {
+      close();
+    }
+    
+    // 삭제 결과 반환
+    return deleteResult;
+  }
+  
+  
 }
